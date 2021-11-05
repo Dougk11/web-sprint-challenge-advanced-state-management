@@ -1,13 +1,52 @@
+import {ERROR_HERE, ADD_SMURF, FETCH_START, FETCH_SUCCESS, FETCH_ERROR} from './../actions'
+
 
 export const initialState = {
+    smurfs: [],
+    appLoading: false,
+    error: false,
+    errorMessage: ''
 }
 
-const reducer = ()=>{
+const reducer = (state = initialState, action)=>{
+    switch(action.type){
+        case (ADD_SMURF):
+            return({
+                ...state,
+                smurfs:[...state.smurfs, action.payload]
+            })
+        case (FETCH_START):
+            return ({
+                ...state,
+                appLoading: true
+            })
+        case (FETCH_SUCCESS):
+            return({
+                ...state,
+                smurfs: action.payload,
+                appLoading: false,
+                errorMessage: ''
+            })
+        case (FETCH_ERROR):
+            return({
+                ...state,
+                appLoading: false,
+                errorMessage: action.payload
+            })
+        case (ERROR_HERE):
+            return({
+                ...state,
+                error: true,
+                errorMessage: action.payload
+            })
+        default:
+            return state;
+    }
 }
 
 //**************DO NOT EDIT ANY CODE BEYOND THIS POINT**************//
 export default reducer;
-
+    
 //Task List:
 //1. Adds the following state values into the initialState:
 //  - an array of smurfs
